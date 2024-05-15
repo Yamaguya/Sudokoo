@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BAE1E6"
+    tools:context=".MainActivity">
+
+    <com.yama.sudokoo.Board
+        android:id="@+id/Board"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ButtonsLayout"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="100dp" />
+
+    <LinearLayout
+        android:id="@+id/ButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="25dp"
+        android:gravity="bottom"
+        android:outlineProvider="none">
+
+        <Button
+            android:id="@+id/OneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_1" />
+
+        <Button
+            android:id="@+id/TwoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_2" />
+
+        <Button
+            android:id="@+id/ThreeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_3" />
+
+        <Button
+            android:id="@+id/FourButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_4" />
+
+        <Button
+            android:id="@+id/FiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_5" />
+
+        <Button
+            android:id="@+id/SixButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_6" />
+
+        <Button
+            android:id="@+id/SevenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_7" />
+
+        <Button
+            android:id="@+id/EightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_8" />
+
+        <Button
+            android:id="@+id/NineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:text="@string/_9" />
+    </LinearLayout>
+
+</RelativeLayout>
+
