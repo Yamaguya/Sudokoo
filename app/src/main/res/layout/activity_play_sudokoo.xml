@@ -22,63 +22,63 @@
         android:outlineProvider="none">
 
         <Button
-            android:id="@+id/OneButton"
+            android:id="@+id/oneButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
-            android:text="@string/_1" />
+            android:text="@string/_1"/>
 
         <Button
-            android:id="@+id/TwoButton"
+            android:id="@+id/twoButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_2" />
 
         <Button
-            android:id="@+id/ThreeButton"
+            android:id="@+id/threeButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_3" />
 
         <Button
-            android:id="@+id/FourButton"
+            android:id="@+id/fourButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_4" />
 
         <Button
-            android:id="@+id/FiveButton"
+            android:id="@+id/fiveButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_5" />
 
         <Button
-            android:id="@+id/SixButton"
+            android:id="@+id/sixButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_6" />
 
         <Button
-            android:id="@+id/SevenButton"
+            android:id="@+id/sevenButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_7" />
 
         <Button
-            android:id="@+id/EightButton"
+            android:id="@+id/eightButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"
             android:text="@string/_8" />
 
         <Button
-            android:id="@+id/NineButton"
+            android:id="@+id/nineButton"
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="1"

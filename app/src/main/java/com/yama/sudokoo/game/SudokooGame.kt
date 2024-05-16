@@ -20,7 +20,9 @@ class SudokooGame {
     // knows what the selected row and column is.
     // Initialize the selected cell with an invalid position (-1, -1)
     init {
-        val cells = List(9 * 9) { i -> Cell(i / 9, i % 9, i % 9 )}
+        val cells = List(9 * 9) { i -> Cell(i / 9, i % 9, i % 9 )} // 0 to 80
+        cells[11].isStartingCell = true
+        cells[24].isStartingCell = true
         board = Board(9, cells)
 
         selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
@@ -28,7 +30,8 @@ class SudokooGame {
     }
 
     fun handleInput(number: Int) {
-        if (selectedRow == -1 || selectedCol != -1) return
+        if (selectedRow == -1 || selectedCol == -1) return
+        if (board.getCell(selectedRow, selectedCol).isStartingCell) return
 
         board.getCell(selectedRow, selectedCol).value = number
         cellsLiveData.postValue(board.cells)
@@ -36,9 +39,11 @@ class SudokooGame {
 
     // Update the selected cell and notify observers
     fun updateSelectedCell(row: Int, col: Int) {
-        selectedRow = row
-        selectedCol = col
-        selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
+        if (!board.getCell(row, col).isStartingCell) {
+            selectedRow = row
+            selectedCol = col
+            selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
+        }
     }
 
 }

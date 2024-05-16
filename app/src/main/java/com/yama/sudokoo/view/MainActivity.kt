@@ -1,13 +1,10 @@
 package com.yama.sudokoo.view
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.KeyEventDispatcher.Component
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.yama.sudokoo.R
+import android.widget.Button
 import com.yama.sudokoo.R.*
 import com.yama.sudokoo.game.Cell
 import com.yama.sudokoo.view.custom.BoardView
@@ -22,9 +19,8 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
          setContentView(layout.activity_play_sudokoo)
-
          // Initialize boardView
-         boardView = findViewById(R.id.boardView)
+         boardView = findViewById(id.boardView)
          boardView.registerListener(this)
 
          // Initialize the ViewModel
@@ -40,6 +36,27 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
              this,
              Observer { updateCells(it) }
          )
+
+         // Initialize buttons
+         val oneButton: Button = findViewById(id.oneButton)
+         val twoButton: Button = findViewById(id.twoButton)
+         val threeButton: Button = findViewById(id.threeButton)
+         val fourButton: Button = findViewById(id.fourButton)
+         val fiveButton: Button = findViewById(id.fiveButton)
+         val sixButton: Button = findViewById(id.sixButton)
+         val sevenButton: Button = findViewById(id.sevenButton)
+         val eightButton: Button = findViewById(id.eightButton)
+         val nineButton: Button = findViewById(id.nineButton)
+
+         val buttons = listOf(oneButton, twoButton, threeButton, fourButton,
+             fiveButton, sixButton, sevenButton, eightButton, nineButton)
+
+        // Set click listener for each button
+        buttons.forEachIndexed{ index, button ->
+            button.setOnClickListener {
+                viewModel.sudokooGame.handleInput(index + 1)
+            }
+        }
 
      }
 
