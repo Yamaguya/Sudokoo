@@ -160,6 +160,14 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
 
             canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
                 (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
+            /*
+            if (it.isStartingCell) {
+                canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                    (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
+            } else {
+                canvas.drawText(" ", (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                    (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
+            }*/
         }
     }
 
