@@ -20,52 +20,95 @@ class SudokooGame {
     // knows what the selected row and column is.
     // Initialize the selected cell with an invalid position (-1, -1)
     init {
-        val cells = List(9 * 9) { i -> Cell(i / 9, i % 9, (1..9).random() )} // 0 to 80
+        // Initialize all cells with value 0
+        val cells = MutableList(9 * 9) { i -> Cell(i / 9, i % 9, 0 )}
+
+        board = Board(9, cells)
+
+        solveSudoku(board, 0, 0)
+
+        cellsLiveData.postValue(cells)
+
+        // Temporary starting cells for testing purposes
         cells[15].isStartingCell = true
         cells[24].isStartingCell = true
         cells[39].isStartingCell = true
         cells[72].isStartingCell = true
 
-        cells.forEach {
-            val r = it.row
-            val c = it.col
-            var randInt = (1..9).random()
-            while (!randInt.isValidNumber(it)) {
-                randInt = (1..9).random()
-            }
+        //selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
+    }
 
-            if (!it.isStartingCell) {
-                it.value = 0
-                cellsLiveData.postValue(cells)
-            } else {
-                it.value = randInt
+    private fun solveSudoku(board: Board, row: Int, col: Int): Boolean {
+        if (row == board.size) return true // Entire board has been filled
+
+        var nextRow = row
+        var nextCol = col
+        if (col == board.size - 1) {
+            nextRow++
+            nextCol = 0
+        } else {
+            nextCol++
+        }
+
+        if (board.getCell(row, col).value != 0) {
+            return solveSudoku(board, nextRow, nextCol)
+        }
+
+        for (num in 1..9) {
+            if (isValidNumber(board, row, col, num)) {
+                board.getCell(row, col).value = num
+                if (solveSudoku(board, nextRow, nextCol)) {
+                    return true
+                }
+                board.getCell(row, col).value = 0 // Backtrack
             }
         }
 
-        board = Board(9, cells)
-
-        selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
-        cellsLiveData.postValue(board.cells)
+        return false // No valid number found
     }
 
+    private fun isValidNumber(board: Board, row: Int, col: Int, number: Int): Boolean {
+        // Check if the number already exists in the same row, column, or square
+        for (i in 0 until board.size) {
+            if (board.getCell(row, i).value == number ||
+                board.getCell(i, col).value == number ||
+                board.getCell((row / 3) * 3 + i / 3, (col / 3) * 3 + i % 3).value == number) {
+                return false
+            }
+        }
+        return true
+    }
 
-    private fun Int.isValidNumber(cell: Cell): Boolean {
+    /*
+    private fun isValidNumber(cell: Cell, number: Int): Boolean {
         // Check if the number already exists in the same row
         for (col in 0 until 9) {
-            if (col != cell.col && cell.value == this) {
+            if (col != cell.col && board.getCell(cell.row, col).value == number) {
                 return false
             }
         }
 
         // Check if the number already exists in the same column
         for (row in 0 until 9) {
-            if (row != cell.row && cell.value == this) {
+            if (row != cell.row && board.getCell(row, cell.col).value == number) {
                 return false
+            }
+        }
+
+        // Check if the number already exists in the same 3x3 square
+        val startRow = (cell.row / 3) * 3
+        val startCol = (cell.col / 3) * 3
+        for (i in startRow until startRow + 3) {
+            for (j in startCol until startCol + 3) {
+                if ((i != cell.row || j != cell.col) && board.getCell(i, j).value == number) {
+                    return false
+                }
             }
         }
 
         return true
     }
+    */
 
     fun handleInput(number: Int) {
         if (selectedRow == -1 || selectedCol == -1) return
