@@ -3,15 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
-    <com.yama.sudokoo.Board
-        android:id="@+id/Board"
+    <com.yama.sudokoo.view.custom.BoardView
+        android:id="@+id/boardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ButtonsLayout"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginBottom="100dp" />
+        android:layout_above="@id/ButtonsLayout"/>
 
     <LinearLayout
         android:id="@+id/ButtonsLayout"
