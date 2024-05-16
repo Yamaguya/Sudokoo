@@ -5,6 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.widget.Button
+import android.widget.ImageButton
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
+import com.yama.sudokoo.R
 import com.yama.sudokoo.R.*
 import com.yama.sudokoo.game.Cell
 import com.yama.sudokoo.view.custom.BoardView
@@ -14,6 +18,9 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
 
     private lateinit var viewModel: SudokooViewModel
     private lateinit var boardView: BoardView
+
+    private lateinit var numberButtons: List<Button>
+    private lateinit var notesButton: ImageButton
 
     // Initialize the activity
      override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +44,16 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
              Observer { updateCells(it) }
          )
 
+        viewModel.sudokooGame.isTakingNotesLiveData.observe(
+            this,
+            Observer { updateNoteTakingUI(it) }
+        )
+
+        viewModel.sudokooGame.highlightedKeysLiveData.observe(
+            this,
+            Observer { updateHighlightedKeysLiveData(it) }
+        )
+
          // Initialize buttons
          val oneButton: Button = findViewById(id.oneButton)
          val twoButton: Button = findViewById(id.twoButton)
@@ -48,15 +65,19 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
          val eightButton: Button = findViewById(id.eightButton)
          val nineButton: Button = findViewById(id.nineButton)
 
-         val buttons = listOf(oneButton, twoButton, threeButton, fourButton,
+         val notesButton: ImageButton = findViewById(id.notesButton)
+
+         val numberButtons = listOf(oneButton, twoButton, threeButton, fourButton,
              fiveButton, sixButton, sevenButton, eightButton, nineButton)
 
         // Set click listener for each button
-        buttons.forEachIndexed{ index, button ->
+        numberButtons.forEachIndexed{ index, button ->
             button.setOnClickListener {
                 viewModel.sudokooGame.handleInput(index + 1)
             }
         }
+
+        notesButton.setOnClickListener { viewModel.sudokooGame.toggleNoteTakingState() }
 
      }
 
@@ -67,6 +88,19 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
     // Update the UI when the selected cell changes
     private fun updateCellLiveUI(cell: Pair<Int,Int>?) = cell?.let {
         boardView.updateSelectedCellUI(cell.first, cell.second)
+    }
+
+    private fun updateHighlightedKeysLiveData() {
+
+    }
+
+    private fun updateNoteTakingUI(isNoteTaking: Boolean?) = isNoteTaking?.let {
+        if (it) {
+            notesButton.setBackgroundColor(ContextCompat.getColor(this, color.black))
+        }
+        else {
+            notesButton.setBackgroundColor(ContextCompat.getColor(this, color.teal_200))
+        }
     }
 
     // Handle cell touch events
