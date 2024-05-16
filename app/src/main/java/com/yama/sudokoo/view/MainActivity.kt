@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.yama.sudokoo.R
 import com.yama.sudokoo.R.*
+import com.yama.sudokoo.game.Cell
 import com.yama.sudokoo.view.custom.BoardView
 import com.yama.sudokoo.viewmodel.SudokooViewModel
 
@@ -34,7 +35,17 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
              this,
              Observer { cell -> updateCellLiveUI(cell) }
          )
+
+         viewModel.sudokooGame.cellsLiveData.observe(
+             this,
+             Observer { updateCells(it) }
+         )
+
      }
+
+    private fun updateCells(cells: List<Cell>?) = cells?.let {
+        boardView.updateCells(cells)
+    }
 
     // Update the UI when the selected cell changes
     private fun updateCellLiveUI(cell: Pair<Int,Int>?) = cell?.let {

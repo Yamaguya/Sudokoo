@@ -5,10 +5,12 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import com.yama.sudokoo.game.Cell
 import kotlin.math.min
 
 open class BoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -19,6 +21,8 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
 
     private var selectedRow = 0
     private var selectedCol = 0
+
+    private var cells: List<Cell>? = null
 
     private var listener: OnTouchListener? = null
 
@@ -42,6 +46,12 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         color = Color.parseColor("#6ead3a")
     }
 
+    private val textPaint = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.BLACK
+        textSize = 24F
+    }
+
     // Paint for conflicting cells (same row, column, or square)
     private val conflictingCellPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
@@ -60,6 +70,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         cellSizePixels = (width / size).toFloat()
         fillCells(canvas)
         drawLines(canvas)
+        drawText(canvas)
     }
 
     // Fill the selected and conflicting cells
@@ -67,21 +78,24 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
 
         if (selectedRow == -1 || selectedCol == -1) return
 
-        for (r in 0..size) {
-            for (c in 0..size) {
-                if (r == selectedRow && c == selectedCol) {
-                    fillCell(canvas, r, c, selectedCellPaint)
-                }
-                else if (r == selectedRow || c == selectedCol)
-                {
-                    fillCell(canvas, r, c, conflictingCellPaint)
-                }
-                else if (r / sqrSize == selectedRow / sqrSize && c / sqrSize == selectedCol / sqrSize)
-                {
-                    fillCell(canvas, r, c, conflictingCellPaint)
-                }
+        cells?.forEach {
+            val r = it.row
+            val c = it.col
+
+            if (r == selectedRow && c == selectedCol) {
+                fillCell(canvas, r, c, selectedCellPaint)
+            }
+            else if (r == selectedRow || c == selectedCol)
+            {
+                fillCell(canvas, r, c, conflictingCellPaint)
+            }
+            else if (r / sqrSize == selectedRow / sqrSize &&
+                c / sqrSize == selectedCol / sqrSize)
+            {
+                fillCell(canvas, r, c, conflictingCellPaint)
             }
         }
+
     }
 
     // Fill a specific cell with the given paint
@@ -116,6 +130,22 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         }
     }
 
+    private fun drawText(canvas: Canvas) {
+        cells?.forEach {
+            val row = it.row
+            val col = it.col
+            val valueString = it.value.toString()
+
+            val textBounds = Rect()
+            textPaint.getTextBounds(valueString, 0, valueString.length, textBounds)
+            val textWidth = textPaint.measureText(valueString)
+            val textHeight = textBounds.height()
+
+            canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, textPaint)
+        }
+    }
+
     // Handle touch events to select cells
     private fun handleTouchEvent(x: Float, y: Float) {
         val possibleSelectedRow = (y / cellSizePixels).toInt()
@@ -143,6 +173,11 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         invalidate()
     }
 
+    fun updateCells(cells: List<Cell>) {
+        this.cells = cells
+        invalidate()
+    }
+
     // Register the touch listener
     fun registerListener(listener: BoardView.OnTouchListener) {
         this.listener = listener
@@ -152,4 +187,5 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
     interface OnTouchListener {
         fun onCellTouched(row: Int, col: Int)
     }
+
 }
