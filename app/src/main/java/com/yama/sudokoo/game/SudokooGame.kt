@@ -33,11 +33,13 @@ class SudokooGame {
         cellsLiveData.postValue(cells)
 
         // Temporary starting cells for testing purposes
-        cells[15].isStartingCell = true
-        cells[24].isStartingCell = true
-        cells[39].isStartingCell = true
-        cells[72].isStartingCell = true
-
+        for (i in 0..4) {
+            var x = (0 until 81).random()
+            while (cells[x].isStartingCell == true) {
+                x = (0 until 81).random()
+            }
+            cells[x].isStartingCell = true
+        }
         //selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
     }
 

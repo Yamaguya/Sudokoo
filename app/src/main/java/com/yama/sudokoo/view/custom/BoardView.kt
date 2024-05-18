@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.Typeface
+import android.graphics.Typeface.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -44,7 +44,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
     // Paint for the selected cell background
     private val selectedCellPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#6ead3a")
+        color = Color.parseColor("#a0cfc9")
     }
 
     private val textPaint = Paint().apply {
@@ -55,14 +55,14 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
 
     private val startingCellTextPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.BLACK
+        color = Color.parseColor("#f5f9f8")
         textSize = 42F
-        typeface = Typeface.DEFAULT_BOLD
+        typeface = DEFAULT_BOLD
     }
 
     private val startingCellPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#acacac")
+        color = Color.parseColor("#27504b")
     }
 
     // Paint for conflicting cells (same row, column, or square)
@@ -159,15 +159,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
             val textHeight = textBounds.height()
 
             canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                (row * cellSizePixels) + (cellSizePixels * 0.65F), paintToUse)
-            /*
-            if (it.isStartingCell) {
-                canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                    (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
-            } else {
-                canvas.drawText(" ", (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                    (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
-            }*/
+                (row * cellSizePixels) + (cellSizePixels * 0.65F) - textHeight / 2, paintToUse)
         }
     }
 
