@@ -1,6 +1,7 @@
 package com.yama.sudokoo.game
 
 import androidx.lifecycle.MutableLiveData
+import kotlin.random.Random
 
 class SudokooGame {
 
@@ -25,6 +26,8 @@ class SudokooGame {
 
         board = Board(9, cells)
 
+
+
         solveSudoku(board, 0, 0)
 
         cellsLiveData.postValue(cells)
@@ -43,6 +46,8 @@ class SudokooGame {
 
         var nextRow = row
         var nextCol = col
+
+        // Parse each column first, then move onto the next row
         if (col == board.size - 1) {
             nextRow++
             nextCol = 0
@@ -54,7 +59,9 @@ class SudokooGame {
             return solveSudoku(board, nextRow, nextCol)
         }
 
-        for (num in 1..9) {
+        val numbers = (1..9).shuffled()
+
+        for (num in numbers) {
             if (isValidNumber(board, row, col, num)) {
                 board.getCell(row, col).value = num
                 if (solveSudoku(board, nextRow, nextCol)) {
@@ -67,48 +74,45 @@ class SudokooGame {
         return false // No valid number found
     }
 
-    private fun isValidNumber(board: Board, row: Int, col: Int, number: Int): Boolean {
-        // Check if the number already exists in the same row, column, or square
+    // Check if the number already exists in the column
+    private fun isInRow(board: Board, row: Int, number: Int): Boolean {
         for (i in 0 until board.size) {
-            if (board.getCell(row, i).value == number ||
-                board.getCell(i, col).value == number ||
-                board.getCell((row / 3) * 3 + i / 3, (col / 3) * 3 + i % 3).value == number) {
-                return false
+            if(board.getCell(row, i).value == number) {
+                return true
             }
         }
-        return true
+        return false
     }
 
-    /*
-    private fun isValidNumber(cell: Cell, number: Int): Boolean {
-        // Check if the number already exists in the same row
-        for (col in 0 until 9) {
-            if (col != cell.col && board.getCell(cell.row, col).value == number) {
-                return false
+    // Check if the number already exists in the row
+    private fun isInColumn(board: Board, col: Int, number: Int): Boolean {
+        for (i in 0 until board.size) {
+            if(board.getCell(i, col).value == number) {
+                return true
             }
         }
+        return false
+    }
 
-        // Check if the number already exists in the same column
-        for (row in 0 until 9) {
-            if (row != cell.row && board.getCell(row, cell.col).value == number) {
-                return false
-            }
-        }
+    // Check if number already exists in the 3x3 box
+    private fun isInBox(board: Board, row: Int, col: Int, number: Int): Boolean {
+        val localRow = row - row % 3
+        val localCol = col - col % 3
 
-        // Check if the number already exists in the same 3x3 square
-        val startRow = (cell.row / 3) * 3
-        val startCol = (cell.col / 3) * 3
-        for (i in startRow until startRow + 3) {
-            for (j in startCol until startCol + 3) {
-                if ((i != cell.row || j != cell.col) && board.getCell(i, j).value == number) {
-                    return false
+        for (i in localRow until localRow+3) {
+            for (j in localCol until localCol+3) {
+                if (board.getCell(i, j).value == number) {
+                    return true
                 }
             }
         }
-
-        return true
+        return false
     }
-    */
+
+    // Check if the number already exists in the same row, column, or square
+    private fun isValidNumber(board: Board, row: Int, col: Int, number: Int): Boolean {
+        return !(isInBox(board, row, col, number) || isInRow(board, row, number) || isInColumn(board, col, number))
+    }
 
     fun handleInput(number: Int) {
         if (selectedRow == -1 || selectedCol == -1) return
