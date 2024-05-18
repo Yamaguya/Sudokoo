@@ -50,13 +50,13 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
     private val textPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
-        textSize = 24F
+        textSize = 42F
     }
 
     private val startingCellTextPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
-        textSize = 32F
+        textSize = 42F
         typeface = Typeface.DEFAULT_BOLD
     }
 
@@ -159,7 +159,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
             val textHeight = textBounds.height()
 
             canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                (row * cellSizePixels) + cellSizePixels / 2 - textHeight /2, paintToUse)
+                (row * cellSizePixels) + (cellSizePixels * 0.65F), paintToUse)
             /*
             if (it.isStartingCell) {
                 canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
