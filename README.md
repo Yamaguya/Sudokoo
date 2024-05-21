@@ -14,7 +14,7 @@ This is a simple Sudoku game implemented for Android. The app allows users to pl
    1. Clone the repository:
 
 ```sh
-git clone https://github.com/yourusername/sudoku-android-app.git
+git clone https://github.com/Yamaguya/Sudokoo.git
 ```
  2. Open the project in Android Studio:
       Open Android Studio.
