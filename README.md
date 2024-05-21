@@ -1,4 +1,4 @@
-#Sudoku Android App
+# Sudoku Android App
 
 This is a simple Sudoku game implemented for Android. The app allows users to play Sudoku by selecting cells and inputting numbers. The initial Sudoku puzzle displays only the starting cells, with all other cells hidden until the user inputs values.
 ##Features
