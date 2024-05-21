@@ -18,7 +18,9 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
     // Initialize the activity
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
+
          setContentView(layout.activity_play_sudokoo)
+
          // Initialize boardView
          boardView = findViewById(id.boardView)
          boardView.registerListener(this)
@@ -38,14 +40,14 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
          )
 
          // Initialize buttons
-         val oneButton: Button = findViewById(id.oneButton)
-         val twoButton: Button = findViewById(id.twoButton)
-         val threeButton: Button = findViewById(id.threeButton)
+         val oneButton:  Button = findViewById(id.oneButton)
+         val twoButton:  Button = findViewById(id.twoButton)
+         val threeButton:Button = findViewById(id.threeButton)
          val fourButton: Button = findViewById(id.fourButton)
          val fiveButton: Button = findViewById(id.fiveButton)
-         val sixButton: Button = findViewById(id.sixButton)
-         val sevenButton: Button = findViewById(id.sevenButton)
-         val eightButton: Button = findViewById(id.eightButton)
+         val sixButton:  Button = findViewById(id.sixButton)
+         val sevenButton:Button = findViewById(id.sevenButton)
+         val eightButton:Button = findViewById(id.eightButton)
          val nineButton: Button = findViewById(id.nineButton)
 
          val buttons = listOf(oneButton, twoButton, threeButton, fourButton,

@@ -1,5 +1,7 @@
 package com.yama.sudokoo.game
 
+import android.graphics.Color
+import android.graphics.Paint
 import androidx.lifecycle.MutableLiveData
 import kotlin.random.Random
 
@@ -26,21 +28,22 @@ class SudokooGame {
 
         board = Board(9, cells)
 
-
-
         solveSudoku(board, 0, 0)
 
         cellsLiveData.postValue(cells)
 
-        // Temporary starting cells for testing purposes
+        setStartingCells(cells)
+        //selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
+    }
+
+    private fun setStartingCells(cells: MutableList<Cell>) {
         for (i in 0..4) {
             var x = (0 until 81).random()
-            while (cells[x].isStartingCell == true) {
+            while (cells[x].isStartingCell) { // Ensure cells[x] wasn't already a starting cell
                 x = (0 until 81).random()
             }
             cells[x].isStartingCell = true
         }
-        //selectedCellLiveData.postValue(Pair(selectedRow, selectedCol))
     }
 
     private fun solveSudoku(board: Board, row: Int, col: Int): Boolean {
@@ -119,8 +122,19 @@ class SudokooGame {
     fun handleInput(number: Int) {
         if (selectedRow == -1 || selectedCol == -1) return
         if (board.getCell(selectedRow, selectedCol).isStartingCell) return
+        if (board.getCell(selectedRow, selectedCol).value == number) {
+            board.getCell(
+                selectedRow,
+                selectedCol
+            ).updateCellTextPaint(board.getCell(selectedRow, selectedCol),
+                Color.BLACK, 42F, Paint.Style.FILL_AND_STROKE)
 
-        board.getCell(selectedRow, selectedCol).value = number
+            board.getCell(selectedRow, selectedCol).value = number
+        }
+        else
+        {
+            println(board.getCell(selectedRow, selectedCol).value)
+        }
         cellsLiveData.postValue(board.cells)
     }
 

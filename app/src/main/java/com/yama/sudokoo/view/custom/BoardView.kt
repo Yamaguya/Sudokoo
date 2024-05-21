@@ -20,8 +20,8 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
     private var size = 9    // The entire board consists of 9 rows and 9 columns
     private var cellSizePixels = 0F
 
-    private var selectedRow = 0
-    private var selectedCol = 0
+    private var selectedRow = -1
+    private var selectedCol = -1
 
     private var cells: List<Cell>? = null
 
@@ -47,12 +47,6 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         color = Color.parseColor("#a0cfc9")
     }
 
-    private val textPaint = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
-        color = Color.BLACK
-        textSize = 42F
-    }
-
     private val startingCellTextPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.parseColor("#f5f9f8")
@@ -68,7 +62,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
     // Paint for conflicting cells (same row, column, or square)
     private val conflictingCellPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
-        color = Color.parseColor("#efedef")
+        color = Color.parseColor("#cfdfe1")
     }
 
     // Maintain board aspect ratio
@@ -80,7 +74,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
 
     // Draw the board
     override fun onDraw(canvas: Canvas) {
-        cellSizePixels = (width / size).toFloat()
+        cellSizePixels = (width / size).toFloat() // Modify later for padding
         fillCells(canvas)
         drawLines(canvas)
         drawText(canvas)
@@ -151,10 +145,11 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
             val col = it.col
             val valueString = it.value.toString()
 
-            val paintToUse = if (it.isStartingCell) startingCellTextPaint else textPaint
+            val paintToUse = if (it.isStartingCell) startingCellTextPaint else it.textPaint
 
             val textBounds = Rect()
             paintToUse.getTextBounds(valueString, 0, valueString.length, textBounds)
+
             val textWidth = paintToUse.measureText(valueString)
             val textHeight = textBounds.height()
 
