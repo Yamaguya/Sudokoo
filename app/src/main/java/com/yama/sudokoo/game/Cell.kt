@@ -7,7 +7,8 @@ import android.text.TextPaint
 class Cell(
     val row: Int,
     val col: Int,
-    var value: Int,
+    var true_value: Int,
+    var current_value: Int,
     var isStartingCell: Boolean = false,
     var textPaint: TextPaint = TextPaint().apply {
             style = Paint.Style.FILL_AND_STROKE
@@ -15,6 +16,7 @@ class Cell(
             textSize = 0F
     })
 {
+
     fun updateCellTextPaint(cell: Cell, color: Int, textSize: Float, style: Paint.Style) {
         cell.textPaint.apply {
             this.color = color

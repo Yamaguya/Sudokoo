@@ -9,6 +9,7 @@ import com.yama.sudokoo.R.*
 import com.yama.sudokoo.game.Cell
 import com.yama.sudokoo.view.custom.BoardView
 import com.yama.sudokoo.viewmodel.SudokooViewModel
+import com.yama.sudokoo.common.DEBUG
 
 class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
 
@@ -40,26 +41,25 @@ class MainActivity : ComponentActivity(), BoardView.OnTouchListener {
          )
 
          // Initialize buttons
-         val oneButton:  Button = findViewById(id.oneButton)
-         val twoButton:  Button = findViewById(id.twoButton)
-         val threeButton:Button = findViewById(id.threeButton)
-         val fourButton: Button = findViewById(id.fourButton)
-         val fiveButton: Button = findViewById(id.fiveButton)
-         val sixButton:  Button = findViewById(id.sixButton)
-         val sevenButton:Button = findViewById(id.sevenButton)
-         val eightButton:Button = findViewById(id.eightButton)
-         val nineButton: Button = findViewById(id.nineButton)
+         val oneButton: Button   = findViewById(id.oneButton)
+         val twoButton: Button   = findViewById(id.twoButton)
+         val threeButton: Button = findViewById(id.threeButton)
+         val fourButton: Button  = findViewById(id.fourButton)
+         val fiveButton: Button  = findViewById(id.fiveButton)
+         val sixButton: Button   = findViewById(id.sixButton)
+         val sevenButton: Button = findViewById(id.sevenButton)
+         val eightButton: Button = findViewById(id.eightButton)
+         val nineButton: Button  = findViewById(id.nineButton)
 
          val buttons = listOf(oneButton, twoButton, threeButton, fourButton,
              fiveButton, sixButton, sevenButton, eightButton, nineButton)
 
         // Set click listener for each button
-        buttons.forEachIndexed{ index, button ->
+        buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 viewModel.sudokooGame.handleInput(index + 1)
             }
         }
-
      }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.yama.sudokoo.game.Cell
+import com.yama.sudokoo.common.DEBUG
 import kotlin.math.min
 
 open class BoardView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -52,6 +53,13 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         color = Color.parseColor("#f5f9f8")
         textSize = 42F
         typeface = DEFAULT_BOLD
+    }
+
+    private val debugTextPaint = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.RED
+        textSize = 34F
+        typeface = DEFAULT
     }
 
     private val startingCellPaint = Paint().apply {
@@ -98,8 +106,7 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
             {
                 fillCell(canvas, r, c, conflictingCellPaint)
             }
-            else if (r / sqrSize == selectedRow / sqrSize &&
-                c / sqrSize == selectedCol / sqrSize)
+            else if (r / sqrSize == selectedRow / sqrSize && c / sqrSize == selectedCol / sqrSize)
             {
                 fillCell(canvas, r, c, conflictingCellPaint)
             }
@@ -139,13 +146,17 @@ open class BoardView(context: Context, attributeSet: AttributeSet) : View(contex
         }
     }
 
+    // TODO: Make it so it doesn't redraw cells that haven't changed every time
     private fun drawText(canvas: Canvas) {
         cells?.forEach {
             val row = it.row
             val col = it.col
-            val valueString = it.value.toString()
+            val valueString = if (it.isStartingCell) it.true_value.toString() else it.current_value.toString()
+            var paintToUse = if (it.isStartingCell) startingCellTextPaint else it.textPaint
 
-            val paintToUse = if (it.isStartingCell) startingCellTextPaint else it.textPaint
+            if (DEBUG) {
+                paintToUse = if (it.isStartingCell) startingCellTextPaint else it.textPaint
+            }
 
             val textBounds = Rect()
             paintToUse.getTextBounds(valueString, 0, valueString.length, textBounds)
